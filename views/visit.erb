@@ -4,7 +4,7 @@
 <script type="text/javascript">
  $(function() {   
       $('#color').simplecolorpicker();
-      $('.aaa').css('background-color', '#E0FFFF');
+      $('#datetimepicker').datetimepicker();
     })
 </script>
 
@@ -22,7 +22,7 @@
 
   <div class="form-group">
     <label>Когда вас ждать?</label>
-    <input name="date_time" type="text" class="form-control" placeholder="Введите дату и время" value="<%=@date_time%>">
+    <input id="datetimepicker" name="date_time" type="text" class="form-control" placeholder="Введите дату и время" value="<%=@date_time%>">
   </div>
  	
   <label for="hairstylist">Выберите паркмахера</label>
