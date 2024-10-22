@@ -5,18 +5,32 @@ require 'sinatra/reloader'
 require 'sqlite3'
 #require 'pony'
 
-configure do
-	@db = SQLite3::Database.new 'barbershop.db'
-	@db.execute 'CREATE TABLE IF NOT EXISTS 
-		"Users" (	
-					"Id"	INTEGER, 
-					"Name"	TEXT, 
-					"Phone"	TEXT, 
-					"DateStamp"	TEXT, 
-					"Barber"	TEXT, "Color"	
-					TEXT, PRIMARY KEY("Id" AUTOINCREMENT)
-				)'
+def get_db
+	return SQLite3::Database.new 'barbershop.db'
 end
+
+configure do
+	db = get_db
+	db.execute 'CREATE TABLE IF NOT EXISTS 
+		"Users" (	
+			"Id" INTEGER PRIMARY KEY AUTOINCREMENT, 
+			"Name"	TEXT, 
+			"Phone"	TEXT, 
+			"DateStamp" TEXT, 
+			"Barber" TEXT, 
+			"Color"	TEXT
+			)'
+	db.close
+end
+
+def save_form_data_to_database
+	db = get_db
+	db.execute 'INSERT INTO Users (name, phone, datestamp, barber, color)
+	VALUES (?, ?, ?, ?, ?)',
+		[@username, @phone, @date_time, @hairstylist, @color]
+	db.close
+end
+
 
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
@@ -61,12 +75,14 @@ post '/visit' do
 	#end
 
 	
-	f = File.open 'public/users.txt', 'a'
-	f.write "User: #{@username}, Phone: #{@phone}, Date and time: #{@date_time}, Hairstylist: #{@hairstylist}, Color: #{@color}\n"
-	f.close
-
+	#f = File.open 'public/users.txt', 'a'
+	#f.write "User: #{@username}, Phone: #{@phone}, Date and time: #{@date_time}, Hairstylist: #{@hairstylist}, Color: #{@color}\n"
+	#f.close
+	
+	save_form_data_to_database
 	erb :visit_result
 end
+
 
 
 post '/visit_result' do
