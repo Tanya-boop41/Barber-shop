@@ -2,8 +2,8 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
-require 'pony'
-#require 'haml'
+#require 'pony'
+
 
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
@@ -48,7 +48,7 @@ post '/visit' do
 	#end
 
 	
-	f = File.open 'C:/Projects/Ruby_Lesson_22/public/users.txt', 'a'
+	f = File.open 'public/users.txt', 'a'
 	f.write "User: #{@username}, Phone: #{@phone}, Date and time: #{@date_time}, Hairstylist: #{@hairstylist}, Color: #{@color}\n"
 	f.close
 
@@ -69,14 +69,27 @@ post '/contacts' do
 		return erb :contacts
 	end
 
-	#Pony.mail(:to => "efita41@gmail.com", :from => "#{@user_email}", :body => "#{@text}")
+	#Pony.mail({
+	 # :to => 'efita41@gmail.ru',
+	 #:subject   => 'BarberShop new contact',
+	 # :body    => "#{@user_email}, #{@text}",
+	 # :via    => :smtp,
+	 # :via_options => {
+	 # :address        => 'smtp.gmail.com',
+	 # :port           => '587',
+	 # :user_name      => 'efita-syrova@gmail.com',
+	 # :password       => 'Efremova905',
+	 # :authentication => :plain, # :plain, :login, :cram_md5, no auth by default
+	 # :domain         => 'gmail.com' # the HELO domain provided by the client to the server
+  	#}
+ #})
 
-	#haml :contact
+	
 
 	@title = 'Благодарим за ваше обращение!'
 	@message = "Мы свяжемся с вами по электронной почте #{@user_email}"
 
-	f = File.open 'C:/Projects/Ruby_Lesson_22/public/contacts.txt', 'a'
+	f = File.open 'public/contacts.txt', 'a'
 	f.write "User e-mail: #{@user_email}, Text: #{@text}\n"
 	f.close
 

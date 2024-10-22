@@ -28,9 +28,9 @@
   <label for="hairstylist">Выберите паркмахера</label>
  	  <select name="hairstylist" class="form-control">
       <option value="none" selected>Выберите парикмахера...</option>
-      <option value="Walter White">Walter White</option>
-      <option value="Jessie Pinkman">Jessie Pinkman</option>
-      <option value="Gus Fring">Gus Fring</option>
+      <option <%= @hairstylist == "Walter White" ? 'selected' : '' %> value="Walter White">Walter White</option>
+      <option <%= @hairstylist == "Jessie Pinkman" ? 'selected' : '' %> value="Jessie Pinkman">Jessie Pinkman</option>
+      <option <%= @hairstylist == "Gus Fring" ? 'selected' : '' %> value="Gus Fring">Gus Fring</option>
     </select>
 
   <div class="form-group">
