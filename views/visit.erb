@@ -25,13 +25,20 @@
     <input id="datetimepicker" name="date_time" type="text" class="form-control" placeholder="Введите дату и время" value="<%=@date_time%>">
   </div>
  	
-  <label for="hairstylist">Выберите паркмахера</label>
- 	  <select name="hairstylist" class="form-control">
-      <option value="none" selected>Выберите парикмахера...</option>
-      <option <%= @hairstylist == "Walter White" ? 'selected' : '' %> value="Walter White">Walter White</option>
+  <div class="form-group">
+  <label>Выберите паркмахера</label>
+ 	  <select name="barber" class="form-control">
+<!--     <option value="none" selected>Выберите парикмахера...</option>
+  <option <%= @hairstylist == "Walter White" ? 'selected' : '' %> value="Walter White">Walter White</option>
       <option <%= @hairstylist == "Jessie Pinkman" ? 'selected' : '' %> value="Jessie Pinkman">Jessie Pinkman</option>
       <option <%= @hairstylist == "Gus Fring" ? 'selected' : '' %> value="Gus Fring">Gus Fring</option>
+-->    
+      <% @barbers.each do |item|%>
+        <option <%= @barber == item['Name'] ? 'selected' : '' %>><%= item['Name'] %></option>
+      <% end %>
+
     </select>
+  </div>
 
   <div class="form-group">
     <label>Какой цвет краски выберете?</label>
@@ -50,13 +57,6 @@
       <option value="#e1e1e1">Gray</option>
     </select>
   </div>
-
-<script type="text/javascript">
-  
-      $('#color').simplecolorpicker();
-      $('#aaa').css('background-color', '#FFFFE0');
-    
-</script>
 
    <button type="submit" class="btn btn-primary">Записаться</button>
 </form>

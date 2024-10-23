@@ -23,6 +23,11 @@ def get_db
 	return db
 end
 
+before do
+	db = get_db
+	@barbers = db.execute 'select * from Barbers'
+end
+
 configure do
 	db = get_db
 	db.execute 'CREATE TABLE IF NOT EXISTS 
@@ -41,15 +46,15 @@ configure do
 			"Name"	TEXT
 			)'
 
-	seed_db db, ['Jessie Pinkman', 'Walter White', 'Gus Fring', 'Mark Erich']
-	db.close
+	seed_db db, ['Выберите парикмахера...', 'Jessie Pinkman', 'Walter White', 'Gus Fring', 'Mark Erich']
+	#db.close
 end
 
 def save_form_data_to_database
 	db = get_db
 	db.execute 'INSERT INTO Users (name, phone, datestamp, barber, color)
 	VALUES (?, ?, ?, ?, ?)',
-		[@username, @phone, @date_time, @hairstylist, @color]
+		[@username, @phone, @date_time, @barber, @color]
 	db.close
 end
 
@@ -74,16 +79,16 @@ post '/visit' do
 	@username = params[:username]
 	@phone = params[:phone]
 	@date_time = params[:date_time]
-	@hairstylist = params[:hairstylist]
+	@barber = params[:barber]
 	@color = params[:color]
 
 	hh = { :username => 'Введите имя',
 			:phone => 'Введите телефон',
 			:date_time => 'Введите дату и время',
-			:hairstylist => 'Выберите парикмахера'}
+			:barber => 'Выберите парикмахера'}
 
 	hh.each do |key, value|
-		if params[key] == "" || params[key] == "none"
+		if params[key] == "" || params[key] == "Выберите парикмахера..."
 			@error = hh[key]
 			return erb :visit
 		end 
@@ -101,10 +106,9 @@ post '/visit' do
 	#f.close
 	
 	save_form_data_to_database
+	
 	erb :visit_result
 end
-
-
 
 post '/visit_result' do
 	erb :visit
@@ -133,8 +137,6 @@ post '/contacts' do
 	 # :domain         => 'gmail.com' # the HELO domain provided by the client to the server
   	#}
  #})
-
-	
 
 	@title = 'Благодарим за ваше обращение!'
 	@message = "Мы свяжемся с вами по электронной почте #{@user_email}"

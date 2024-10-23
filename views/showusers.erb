@@ -9,16 +9,16 @@
     </tr>
   </thead>
 
-  <body>
+  <tbody>
     <% @results.each do |row| %>
       <tr>
         <td><%= row['Name'] %></td>
         <td><%= row['Phone'] %></td>
         <td><%= row['DateStamp'] %></td>
         <td><%= row['Barber'] %></td>
-        <td><%= row['Color'] %></td>
+        <td style="background-color: <%= row['Color'] %>"><%= row['Color'] %></td>
       </tr>
     <% end %>
-  </body>
+  </tbody>
 </table>  
   
